@@ -60,11 +60,11 @@ jobs:
           SHA=$(git rev-parse HEAD)
           echo "sha=$SHA" >> "$GITHUB_OUTPUT"
           # the origin one is where we need to push to, other two aren't useful
-          REF=$(git branch --all --contains $SHA | grep origin | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-          echo "ref=refs/$REF"
-          echo "ref=refs/$REF" >> "$GITHUB_OUTPUT"
+          BRANCH=$(git branch --all --contains $SHA | grep origin | sed 's#^.*origin/##;s/[[:space:]]*$//')
+          echo "branch=$BRANCH"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
 
           ./script/changelog create -c -t "${{ steps.parse_command.outputs.changelog_type }}" "${{ steps.parse_command.outputs.message }}"
       - uses: ad-m/github-push-action@v0.8.0
         with:
-          branch: ${{ steps.changelog.outputs.ref }}
+          branch: ${{ steps.changelog.outputs.branch }}
