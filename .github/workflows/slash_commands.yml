@@ -59,9 +59,9 @@ jobs:
           SHA=$(git rev-parse HEAD)
           echo SHA=$SHA
           # the origin one is where we need to push to, other two aren't useful
-          REF=$(git branch --all --contains $SHA | grep origin)
+          REF=$(git branch --all --contains $SHA | grep origin | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
           echo REF=$REF
 
           ./script/changelog create -c -t "${{ steps.parse_command.outputs.changelog_type }}" "${{ steps.parse_command.outputs.message }}"
 
-          git push origin HEAD:$REF
+          git push origin HEAD:refs/$REF
