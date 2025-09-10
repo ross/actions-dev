@@ -52,9 +52,18 @@ jobs:
 
       # add the changelog entry
       - name: Changelog Create
+        id: changelog
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
+          SHA=$(git rev-parse HEAD)
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          # the origin one is where we need to push to, other two aren't useful
+          REF=$(git branch --all --contains $SHA | grep origin | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+          echo "ref=$REF" >> "$GITHUB_OUTPUT"
+
           ./script/changelog create -c -t "${{ steps.parse_command.outputs.changelog_type }}" "${{ steps.parse_command.outputs.message }}"
       - uses: ad-m/github-push-action@v0.8.0
+        with:
+          branch: ${{ steps.changelog.outputs.ref }}
