@@ -58,7 +58,4 @@ jobs:
 
           ./script/changelog create -c -t "${{ steps.parse_command.outputs.changelog_type }}" "${{ steps.parse_command.outputs.message }}"
 
-          BRANCH=$(git rev-parse --abbrev-ref HEAD)
-          echo BRANCH=$BRANCH
-          # we need to push to
-          git push origin $BRANCH:$BRANCH
+          git push origin refs/pull/${{ github.event.issue.number }}/head
