@@ -64,4 +64,4 @@ jobs:
 
           ./script/changelog create -c -t "${{ steps.parse_command.outputs.changelog_type }}" "${{ steps.parse_command.outputs.message }}"
 
-          git push origin $REF
+          git push origin HEAD:$REF
