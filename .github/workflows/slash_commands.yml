@@ -36,8 +36,6 @@ jobs:
 
       # check out our repo and install our requirements
       - uses: actions/checkout@v4
-      - name: Fetch main
-        run: git fetch origin main --depth 1
       - name: Setup python
         uses: actions/setup-python@v4
         with:
@@ -49,7 +47,7 @@ jobs:
           pip install -r requirements.txt -r requirements-dev.txt
 
       # add the changelog entry
-      - name: Changelog Check
+      - name: Changelog Create
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
