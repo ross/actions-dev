@@ -61,6 +61,7 @@ jobs:
           echo "sha=$SHA" >> "$GITHUB_OUTPUT"
           # the origin one is where we need to push to, other two aren't useful
           REF=$(git branch --all --contains $SHA | grep origin | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+          echo "ref=$REF"
           echo "ref=$REF" >> "$GITHUB_OUTPUT"
 
           ./script/changelog create -c -t "${{ steps.parse_command.outputs.changelog_type }}" "${{ steps.parse_command.outputs.message }}"
